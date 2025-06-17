@@ -6,7 +6,7 @@ import PySimpleGUI as sg
 
 from PIL import Image
 from textwrap import fill
-from mbti_data import mbti_list
+from mbti_data import mbti_dict
 
 
 # MBTI 궁합 해석: 관계
@@ -181,7 +181,7 @@ def main():
 
                 mbti_me = mbti_me.strip().upper()
 
-                if not mbti_me or mbti_me not in mbti_list: # 빈칸 또는 잘못된 단어 입력 시
+                if not mbti_me or mbti_me not in mbti_dict: # 빈칸 또는 잘못된 단어 입력 시
                     sg.popup("올바른 MBTI를 입력해주세요!", title="")
                     continue
                 break
@@ -200,7 +200,7 @@ def main():
 
                 mbti_you = mbti_you.strip().upper()
 
-                if not mbti_you or mbti_you not in mbti_list: # 빈칸 또는 잘못된 단어 입력 시
+                if not mbti_you or mbti_you not in mbti_dict: # 빈칸 또는 잘못된 단어 입력 시
                     sg.popup("올바른 MBTI를 입력해주세요!", title="")
                     continue
                 break
@@ -229,7 +229,7 @@ def main():
                 text_lines = [[sg.Column([
                     [sg.Text(f"나와 상대방:"), sg.Text(f"{mbti_me}",
                                                   text_color="dodgerblue", font=("Any", 18, "bold"))],
-                    [sg.Text(f"{mbti_list[mbti_me]['trait']}입니다.")],
+                    [sg.Text(f"{mbti_dict[mbti_me]['trait']}입니다.")],
                     [sg.Text("")],
                     [sg.Text("[MBOT의 분석]", text_color="deepskyblue", font=("Any", 15, "bold"))],
                     [sg.Text(f"제가 분석한 두 사람은 {mbti_compatibility[score]}입니다.")],
@@ -243,8 +243,8 @@ def main():
                      sg.Text(f"{mbti_me}", text_color="dodgerblue", font=("Any", 18, "bold")),
                      sg.Text(f"                   상대방"),
                      sg.Text(f"{mbti_you}", text_color="crimson", font=("Any", 18, "bold"))],
-                    [sg.Text(f"{mbti_me}(나)는 {mbti_list[mbti_me]['trait']}입니다.")],
-                    [sg.Text(f"{mbti_you}(상대방)은 {mbti_list[mbti_you]['trait']}입니다.")],
+                    [sg.Text(f"{mbti_me}(나)는 {mbti_dict[mbti_me]['trait']}입니다.")],
+                    [sg.Text(f"{mbti_you}(상대방)은 {mbti_dict[mbti_you]['trait']}입니다.")],
                     [sg.Text("")],
                     [sg.Text("[MBOT의 분석]", text_color="deepskyblue", font=("Any", 15, "bold"))],
                     [sg.Text(f"제가 분석한 두 사람은 {mbti_compatibility[score]}입니다.")],
@@ -281,7 +281,7 @@ def main():
                     [sg.Text(f"제가 분석한 MBTI는"),
                      sg.Text(f"{result}", text_color="dodgerblue", font=("Any", 18, "bold")),
                      sg.Text(f"입니다.")],
-                    [sg.Text(f"{result}는 {mbti_list[result]['trait']}입니다.")],
+                    [sg.Text(f"{result}는 {mbti_dict[result]['trait']}입니다.")],
                     [sg.Text("")],
                     [sg.Image(data=image_data)],
                     [sg.Text("")],
@@ -295,7 +295,7 @@ def main():
             detail = sg.popup_yes_no(f"{result}의 특징을 보시겠습니까?", title="")
 
             if detail == "Yes":
-                data = mbti_list[result]
+                data = mbti_dict[result]
                 images = data.get("images", [])
                 images_list = []
 
@@ -353,8 +353,8 @@ def main():
 
 
                 # 1단계 특징 호출
-                if mbti_input in mbti_list:
-                    data = mbti_list[mbti_input]
+                if mbti_input in mbti_dict:
+                    data = mbti_dict[mbti_input]
                     images = data.get("images", [])
                     images_list = []
 
