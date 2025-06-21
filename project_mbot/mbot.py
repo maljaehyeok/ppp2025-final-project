@@ -91,6 +91,19 @@ def ask(questions):
     return count
 
 
+# 이미지 로드
+def load_images(images_path, max_width=200, max_height=200):
+    try:
+        images = Image.open(images_path)
+        images.thumbnail((max_width, max_height))
+        buffer = io.BytesIO()
+        images.save(buffer, format="PNG")
+        return buffer.getvalue()
+    except Exception as error:
+        print(f"[이미지 오류] {images_path} 를 불러올 수 없습니다: {error}")
+        return None
+
+
 # 분석 중 팝업
 def time_delay_popup(message="MBOT이 분석 중입니다...\n잠시만 기다려주세요!", seconds=3):
     image_path = os.path.join("images", "mbot_2.png")
@@ -103,19 +116,6 @@ def time_delay_popup(message="MBOT이 분석 중입니다...\n잠시만 기다�
     window.refresh()
     time.sleep(seconds)
     window.close()
-
-
-# 이미지 로드
-def load_images(images_path, max_width=200, max_height=200):
-    try:
-        images = Image.open(images_path)
-        images.thumbnail((max_width, max_height))
-        buffer = io.BytesIO()
-        images.save(buffer, format="PNG")
-        return buffer.getvalue()
-    except Exception as error:
-        print(f"[이미지 오류] {images_path} 를 불러올 수 없습니다: {error}")
-        return None
 
 
 # MBTI 유형별 분석 중 팝업
@@ -163,7 +163,6 @@ def main():
         if event in (sg.WIN_CLOSED, "종료"):
             sg.popup("다음에 다시 만나요!")
             break
-
 
 
         # 메뉴 1번: MBTI 궁합 해석
@@ -255,7 +254,6 @@ def main():
             sg.Window("MBTI 궁합 해석", layout, modal=True, element_justification="center").read(close=True)
 
 
-
         # 메뉴 2번: MBTI 간편 검사
         elif event == "MBTI 간편 검사":
             sg.popup("MBTI 간편 검사를 시작합니다.\n질문에 답해주세요!", title="")
@@ -338,7 +336,6 @@ def main():
                 sg.Window(f"{result}유형의 특징", layout, modal=True).read(close=True)
 
 
-
         # 메뉴 3번: MBTI 유형별 특징
         elif event == "MBTI 유형별 특징":
 
@@ -401,7 +398,6 @@ def main():
                 else: # 빈칸 또는 잘못된 단어 입력 시
                     sg.popup("올바른 MBTI를 입력해주세요!", title="")
                     continue
-
 
 
         else:
